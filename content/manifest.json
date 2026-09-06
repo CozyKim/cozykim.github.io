@@ -1,0 +1,15 @@
+{
+  "categories": [
+    { "name": "대화형 AI 에이전트", "desc": "LLM 기반 멀티턴 에이전트 설계·운영" },
+    { "name": "AI 데이터 · 추천", "desc": "비정형 데이터를 검색·추천 가치로 전환" },
+    { "name": "LLM 서비스 · 플랫폼", "desc": "LLM 호출의 표준화와 운영 안정성" }
+  ],
+  "projects": [
+    "projects/shopping-ai.md",
+    "projects/confluence-agent.md",
+    "projects/profiling.md",
+    "projects/category-remap.md",
+    "projects/cs-automation.md",
+    "projects/llm-core.md"
+  ]
+}

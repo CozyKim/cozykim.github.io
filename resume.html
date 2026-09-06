@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>이력서</title>
+<!-- 파비콘 (외부 파일 없이 인라인 SVG — favicon.ico 404 방지, index.html 과 동일) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234f46e5'/><stop offset='1' stop-color='%2306b6d4'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23g)'/><text x='50' y='53' font-family='Inter,Arial,sans-serif' font-size='62' font-weight='800' fill='%23ffffff' text-anchor='middle' dominant-baseline='central'>J</text></svg>" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#14171a;    /* 제목·강조 */
+    --body:#2f353b;   /* 본문 */
+    --muted:#5f666e;  /* 기간·기술 등 보조 정보. 흰 배경 대비 5.9:1 — 10px 대에서도 판독 가능한 하한 */
+    --hair:#e4e7eb;   /* 섹션 라벨 옆 헤어라인 */
+    --rule:#d7dbdf;   /* 프로젝트 타임라인 세로선 */
+
+    /* 타이포 스케일: 본문 12.4px(≈9.3pt)를 기준으로 5단.
+       불릿·설명이 모두 한 줄(불릿 46자, 설명 52자 이하)이라는 전제 위의 값이다.
+       본문을 더 키우면 긴 불릿부터 두 줄로 감기고, 여러 개 감기면 fit() 축소가 걸려 되레 작아진다. */
+    --t-name:27px;    /* 이름 */
+    --t-org:16px;     /* 회사명 — 프로젝트명보다 한 급 크게. 1px 차이면 같은 급으로 읽혀 회사>프로젝트 구조가 사라진다 */
+    --t-title:13px;   /* 프로젝트명 */
+    --t-body:12.4px;  /* 본문 — 요약·불릿·학력 */
+    --t-meta:10.6px;  /* 기간·기술·연락처 */
+    --t-label:9.4px;  /* 섹션 라벨·스택 그룹명 */
+
+    /* 프로젝트 기간 칸 폭. "2026.03 ~" 한 줄이 mono 10.4px 로 약 57px 이라 22mm(83px) 면 충분하고,
+       더 넓히면 본문 행 길이가 줄어 두 줄 불릿이 늘어난다. */
+    --gutter:22mm;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  /* 한국어 줄바꿈: 브라우저 기본값은 어절 중간에서도 줄을 끊는다("전자공학과 학/사").
+     keep-all 로 어절 단위를 지킨다. 영문 식별자만 예외적으로 하이픈 분절을 허용. */
+  body{word-break:keep-all;overflow-wrap:break-word;}
+  html,body{
+    background:#f3f4f6; color:var(--body);
+    font-family:"IBM Plex Sans KR",-apple-system,BlinkMacSystemFont,
+      "Apple SD Gothic Neo","Malgun Gothic","Liberation Sans",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  /* 화면 전용 툴바 */
+  .toolbar{max-width:210mm;margin:18px auto 0;padding:0 4mm;display:flex;gap:8px;align-items:center;}
+  .toolbar .hint{margin-right:auto;color:var(--muted);font-size:12px;}
+  .toolbar button{
+    font:inherit;font-size:13px;font-weight:600;color:#fff;background:var(--ink);
+    border:0;border-radius:7px;padding:8px 16px;cursor:pointer;
+  }
+  .toolbar button:hover{background:#2c3339;}
+  .toolbar button:focus-visible{outline:2px solid var(--ink);outline-offset:2px;}
+  @media (max-width:640px){ .toolbar .hint{display:none;} }
+
+  /* A4 용지 */
+  .page{
+    width:210mm;min-height:296mm;margin:16px auto 40px;background:#fff;
+    padding:13mm 14mm 12mm;box-shadow:0 6px 28px rgba(0,0,0,.14);
+  }
+
+  /* 헤더: 이름·역할 왼쪽, 연락처 오른쪽 정렬 */
+  header{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;
+     border-bottom:1.5px solid var(--ink);padding-bottom:14px;}
+  .name-line{display:flex;flex-direction:column;gap:5px;}
+  .name{font-size:var(--t-name);font-weight:700;color:var(--ink);letter-spacing:-.02em;line-height:1;}
+  .role{font-size:11.6px;font-weight:600;color:var(--muted);letter-spacing:.01em;}
+  .contact{display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right;
+     font-family:"IBM Plex Mono",monospace;font-size:var(--t-meta);color:var(--muted);
+     word-break:break-all;}  /* 주소·URL 은 예외적으로 글자 단위 줄바꿈을 허용 */
+  .contact a{color:var(--muted);text-decoration:none;}
+
+  /* 섹션 라벨: 레터스페이싱 대문자 + 헤어라인 */
+  section{margin-top:20px;}
+  h2{font-size:var(--t-label);font-weight:700;color:var(--muted);letter-spacing:.16em;
+     text-transform:uppercase;display:flex;align-items:center;gap:10px;}
+  h2::after{content:"";flex:1;height:1px;background:var(--hair);}
+
+  .summary{margin-top:12px;font-size:var(--t-body);line-height:1.75;color:var(--body);}
+  .summary p+p{margin-top:5px;}
+
+  .exp-head{display:flex;justify-content:space-between;align-items:baseline;margin-top:14px;}
+  .exp-head .org{font-size:var(--t-org);font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .exp-head .period{font-family:"IBM Plex Mono",monospace;font-size:var(--t-meta);color:var(--muted);
+     white-space:nowrap;padding-left:12px;}
+
+  /* 프로젝트 목록: 1단 본문 위에 왼쪽 기간 칸 + 세로선 + 본문.
+     1단으로 두는 이유 — 사이드바 2단이면 학력·기술스택이 본문 절반 높이에서 끝나 하단이 비고,
+     본문 행 폭이 133mm(약 40자)로 줄어 불릿 대부분이 두 줄로 감긴다.
+     기간을 왼쪽 칸에 두면 오른쪽 끝에서 회사 기간과 경쟁하지 않고, 세로선 하나가
+     회사 > 프로젝트 위계를 들여쓰기로 만든다.
+     세로선은 목록 컨테이너에 그려 프로젝트 사이 여백에서도 끊기지 않는 하나의 타임라인이 된다. */
+  .exp-list{position:relative;margin-top:8px;}
+  .exp-list::before{content:"";position:absolute;left:var(--gutter);top:6px;bottom:2px;width:1px;background:var(--rule);}
+  .proj{display:grid;grid-template-columns:var(--gutter) 1fr;margin-top:18px;}
+  .proj-when{font-family:"IBM Plex Mono",monospace;font-size:var(--t-meta);color:var(--muted);
+     line-height:1.6;padding-top:2px;padding-right:6px;}
+  .proj-body{min-width:0;padding-left:12px;}
+  /* 제목 줄: 제목 왼쪽, 핵심 기술 오른쪽. 기간이 왼쪽 칸으로 빠져 비어 있는 자리를 쓴다.
+     기술을 블록 끝에 두면 가장 약한 스타일의 줄로 블록이 끝나고 다음 제목과 붙어 보인다. */
+  .proj-head{display:flex;justify-content:space-between;align-items:baseline;gap:12px;}
+  .proj-title{font-size:var(--t-title);font-weight:700;color:var(--ink);letter-spacing:-.01em;}
+  .proj-tech{font-family:"IBM Plex Mono",monospace;font-size:var(--t-meta);color:var(--muted);
+     white-space:nowrap;flex-shrink:0;}
+
+  /* 설명 줄: 무엇을 하는 시스템인지 한 줄. 본문보다 한 급 작은 회색 — 수치는 아래 불릿이 맡는다 */
+  .proj-desc{font-size:11.4px;line-height:1.5;color:var(--muted);margin-top:4px;}
+  .proj-desc strong{font-weight:600;color:var(--ink);}
+
+  ul{list-style:none;}
+  li{position:relative;padding-left:13px;margin:4px 0;font-size:var(--t-body);line-height:1.7;color:var(--body);}
+  li::before{content:"–";position:absolute;left:1px;top:0;color:var(--muted);}
+  /* 불릿 한 줄에 강조가 두세 개씩 붙어 있어, 700 이면 줄 전체가 굵어 보여 강조가 죽는다.
+     500 + 잉크색으로 낮춰 본문과 구분만 남긴다. */
+  li strong{font-weight:500;color:var(--ink);}
+  li .mono{font-family:"IBM Plex Mono",monospace;font-size:11.3px;}
+  .proj-res{margin-top:6px;}
+
+  /* 하단: 학력 | 기술스택 2단. 둘 다 짧은 목록이라 나란히 두면 세로 높이를 절반으로 줄인다 */
+  .bottom{display:grid;grid-template-columns:1fr 1.5fr;column-gap:10mm;}
+  .bottom section{margin-top:20px;}
+  .edu-row{margin-top:12px;}
+  .edu-row+.edu-row{margin-top:10px;}
+  .edu-row .what{display:block;font-size:12px;color:var(--body);line-height:1.6;}
+  .edu-row .what b{font-weight:700;color:var(--ink);}
+  .edu-row .period{display:block;margin-top:1px;font-family:"IBM Plex Mono",monospace;
+     font-size:var(--t-meta);color:var(--muted);}
+  /* 기술스택: 그룹명 | 항목 2열 표. 라벨은 항목보다 물러나 있어야 항목이 먼저 읽힌다 */
+  .stack{margin-top:12px;display:grid;grid-template-columns:auto 1fr;column-gap:12px;row-gap:7px;
+     font-size:11.8px;line-height:1.7;color:var(--body);}
+  .stack b{font-size:var(--t-label);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+     color:var(--muted);padding-top:3px;white-space:nowrap;}
+
+  .err{margin-top:14px;color:#b91c1c;font-size:12.5px;line-height:1.6;}
+  .err code{background:#fef2f2;padding:1px 5px;border-radius:4px;}
+
+  @page{size:A4;margin:0;}
+  @media print{
+    html,body{background:#fff;}
+    .toolbar{display:none !important;}
+    .page{width:auto;min-height:0;margin:0;box-shadow:none;}
+  }
+</style>
+</head>
+<body>
+  <div class="toolbar">
+    <span class="hint">버튼 또는 Cmd/Ctrl+P → “PDF로 저장”을 누르면 A4 1장으로 추출됩니다. (내용은 content/*.md 와 자동 연동)</span>
+    <button onclick="window.print()">PDF로 저장</button>
+  </div>
+
+  <main class="page" id="page">
+    <header>
+      <div class="name-line">
+        <span class="name" id="r-name">이력서</span>
+        <span class="role" id="r-role"></span>
+      </div>
+      <div class="contact" id="r-contact"></div>
+    </header>
+
+    <section>
+      <h2>Summary</h2>
+      <div class="summary" id="r-summary"></div>
+    </section>
+
+    <section id="r-exp-sec">
+      <h2>Experience</h2>
+      <div class="exp-head">
+        <span class="org" id="r-org"></span>
+        <span class="period" id="r-period"></span>
+      </div>
+      <div class="exp-list" id="r-exp"></div>
+    </section>
+
+    <div class="bottom">
+      <section id="r-edu-sec" hidden>
+        <h2>Education</h2>
+        <div id="r-edu"></div>
+      </section>
+      <section id="r-stack-sec" hidden>
+        <h2>Tech Stack</h2>
+        <div class="stack" id="r-stack"></div>
+      </section>
+    </div>
+
+    <div class="err" id="r-err" hidden></div>
+  </main>
+
+<!-- 이력서 렌더 공유 모듈 (index.html 합본 시트와 공용) -->
+<script src="resume-render.js"></script>
+<script>
+  var esc = function(s){return (s||"").replace(/[&<>"]/g,function(c){
+    return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
+  var R = window.ResumeRender;   // 콘텐츠 규칙(불릿·학력·스택·인라인 MD)은 공유 모듈에서
+
+  function parseFrontmatter(text){
+    var m = text.match(/^﻿?---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+    if(!m) return {meta:{},body:text};
+    var meta={};
+    m[1].split("\n").forEach(function(line){
+      var i=line.indexOf(":"); if(i===-1) return;
+      var v = line.slice(i+1).trim();
+      var q = v.match(/^(['"])([\s\S]*)\1$/); // 따옴표로 감싼 값이면 한 겹 벗김 (YAML alias 회피용)
+      meta[line.slice(0,i).trim()] = q ? q[2] : v;
+    });
+    return {meta:meta, body:m[2]};
+  }
+
+  function bodyParagraphs(body){
+    return (body||"").split(/\n\s*\n/).map(function(p){return p.trim();})
+      .filter(function(p){return p && !p.startsWith("#") && !p.startsWith("-") && !p.startsWith("`");});
+  }
+
+  async function fetchText(path){
+    var res = await fetch(path);
+    if(!res.ok) throw new Error(path+" ("+res.status+")");
+    return res.text();
+  }
+
+  // 넘치는 분량을 zoom 으로 눌러 1장에 맞춘다. 다만 축소율에 하한을 둔다 —
+  // 0.95 아래로 내려가면 본문 9pt 가 8.5pt 미만으로 렌더돼 읽기 어려워지므로,
+  // 그 경우엔 축소를 포기하고 2장으로 넘긴다. 읽을 수 없는 1장보다 낫다.
+  var MIN_ZOOM = 0.95;
+  function fit(){
+    var page=document.getElementById("page");
+    page.style.zoom="1";
+    var prevMin=page.style.minHeight; page.style.minHeight="0";
+    var A4=1118; // 297mm @96dpi(여유)
+    var h=page.scrollHeight;
+    page.style.minHeight=prevMin;
+    var z = 1;
+    if(h>A4){
+      z = A4/h;
+      if(z < MIN_ZOOM){
+        z = 1;
+        console.warn("이력서 분량이 A4 1장을 넘습니다(필요 축소율 "+(A4/h).toFixed(3)+
+          "). 글자 크기를 지키기 위해 축소하지 않았습니다 — 프로젝트 또는 불릿을 줄이세요.");
+      }
+    }
+    // 페이지 폭(210mm)이 화면보다 넓으면(모바일) 가로 스크롤 대신 화면 폭에 맞춰 축소한다.
+    // 인쇄 시엔 .page 가 width:auto 라 화면 폭과 같아져 이 분기를 타지 않는다.
+    var vw=document.documentElement.clientWidth, pw=page.offsetWidth;
+    if(pw > vw) z = Math.min(z, (vw-16)/pw);
+    page.style.zoom = z===1 ? "1" : z.toFixed(4);
+  }
+
+  async function load(){
+    try{
+      var intro = parseFrontmatter(await fetchText("content/intro.md"));
+      var meta = intro.meta;
+      document.getElementById("r-name").textContent = meta.name || "이력서";
+      document.getElementById("r-role").textContent = meta.role || "";
+      document.title = (meta.name||"이력서") + " — 이력서";
+
+      var c=[];
+      if(meta.email) c.push('<a href="mailto:'+esc(meta.email)+'">'+esc(meta.email)+"</a>");
+      if(meta.github) c.push('<a href="'+esc(meta.github)+'">'+esc(meta.github.replace(/^https?:\/\//,""))+"</a>");
+      if(meta.site) c.push('<a href="'+esc(meta.site)+'">'+esc(meta.site.replace(/^https?:\/\//,""))+"</a>");
+      if(meta.location) c.push("<span>"+esc(meta.location)+"</span>");
+      document.getElementById("r-contact").innerHTML = c.join("");
+
+      // 소개는 한 문단(lead)으로 압축 — 본문 상세는 메인 사이트(index.html)에서 노출
+      document.getElementById("r-summary").innerHTML =
+        meta.lead ? "<p>"+R.inlineMd(meta.lead)+"</p>" : "";
+
+      document.getElementById("r-org").textContent =
+        (meta.company? meta.company : "") + (meta.position? " — "+meta.position : "");
+      document.getElementById("r-period").textContent = meta.period || "";
+
+      // 프로젝트 로드
+      var manifest = JSON.parse(await fetchText("content/manifest.json"));
+      var loaded = await Promise.all(manifest.projects.map(async function(file){
+        var pf = parseFrontmatter(await fetchText("content/"+file));
+        return {meta:pf.meta, body:pf.body};
+      }));
+
+      // Experience: 경력기술서 규격 — 프로젝트 단위 칸을 기간 최신순 역순으로.
+      // 한 칸 = 제목·핵심 기술 1~3개 / 설명 1줄(무엇인가) / 한 일 3줄(성과 수치 포함)
+      var expHtml="";
+      R.byRecency(loaded.filter(R.inResume)).forEach(function(p){
+        // 기간은 왼쪽 칸에 두 줄("2026.03 ~" / "진행 중")로 — 한 줄이면 칸 폭을 넘는다
+        var per = R.projectPeriod(p).split("~");
+        var when = per.length===2 ? esc(per[0].trim())+" ~<br>"+esc(per[1].trim()) : esc(per[0]);
+        expHtml += '<div class="proj"><div class="proj-when">'+when+'</div><div class="proj-body">';
+        var tech = R.projectTech(p);
+        expHtml += '<div class="proj-head"><span class="proj-title">'+esc(p.meta.title||"")+"</span>"
+          + (tech.length ? '<span class="proj-tech">'+esc(tech.join(" · "))+"</span>" : "")
+          + "</div>";
+
+        var desc = R.projectDesc(p);
+        if(desc) expHtml += '<div class="proj-desc">'+R.inlineMd(desc)+"</div>";
+
+        // 한 일: highlights(큐레이션) 우선, 없으면 본문에서 자동 구성. 개수 상한은 공유 모듈(RESUME_BULLETS).
+        var bullets = R.projectBullets(p);
+        if(bullets.length){
+          expHtml += '<ul class="proj-res">'
+            + bullets.map(function(x){return "<li>"+R.inlineMd(x)+"</li>";}).join("")
+            + "</ul>";
+        }
+
+        expHtml += "</div></div>";
+      });
+      document.getElementById("r-exp").innerHTML = expHtml;
+
+      // Education (파싱은 공유 모듈)
+      var edu = R.educationItems(meta);
+      if(edu.length){
+        document.getElementById("r-edu").innerHTML = edu.map(function(e){
+          var w=e.what.replace(/^(.+?)( — .*)?$/, function(_,a,b){return "<b>"+esc(a)+"</b>"+esc(b||"");});
+          return '<div class="edu-row"><span class="what">'+w+'</span><span class="period">'+esc(e.period)+"</span></div>";
+        }).join("");
+        document.getElementById("r-edu-sec").hidden=false;
+      }
+
+      // Tech Stack: 큐레이션(resumeStack) 우선, 없으면 프로젝트 stack + stackExtra 자동 집계
+      var groups = R.resumeStackGroups(meta);
+      if(groups.length){
+        document.getElementById("r-stack").innerHTML = groups.map(function(g){
+          return "<b>"+esc(g.name)+"</b><span>"+esc(g.items)+"</span>";
+        }).join("");
+        document.getElementById("r-stack-sec").hidden=false;
+      }else{
+        var stack = R.aggregateStack(loaded, meta);
+        if(stack.length){
+          // 2열 표 컨테이너라 텍스트를 그대로 넣으면 첫 열에만 놓인다 — 두 열을 합쳐 한 줄로
+          document.getElementById("r-stack").innerHTML =
+            '<span style="grid-column:1/-1">'+esc(stack.join(", "))+"</span>";
+          document.getElementById("r-stack-sec").hidden=false;
+        }
+      }
+
+      try{ await document.fonts.ready; }catch(e){}
+      fit();
+      window.__resumeReady = true;
+    }catch(e){
+      console.error(e);
+      var err=document.getElementById("r-err");
+      err.hidden=false;
+      err.innerHTML = "콘텐츠를 불러오지 못했습니다. 로컬에서 더블클릭 대신 폴더에서 "+
+        "<code>python -m http.server</code> 실행 후 <code>http://localhost:8000/resume.html</code> 로 여세요. "+
+        "(GitHub Pages 등에 올리면 자동 동작합니다.)";
+      window.__resumeReady = true;
+    }
+  }
+
+  window.addEventListener("resize", fit);
+  window.addEventListener("beforeprint", fit);
+  load();
+</script>
+</body>
+</html>

@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>김재현 · 포트폴리오</title>
+<meta name="description" content="LLM을 서비스로 만드는 AI 엔지니어 김재현의 포트폴리오. 대화형 AI 에이전트·추천 데이터 파이프라인·LLM 플랫폼을 설계·운영합니다." />
+
+<!-- 파비콘 (외부 파일 없이 인라인 SVG — favicon.ico 404 방지, 사이트 그라데이션과 동일) -->
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' y1='0' x2='1' y2='1'><stop offset='0' stop-color='%234f46e5'/><stop offset='1' stop-color='%2306b6d4'/></linearGradient></defs><rect width='100' height='100' rx='24' fill='url(%23g)'/><text x='50' y='53' font-family='Inter,Arial,sans-serif' font-size='62' font-weight='800' fill='%23ffffff' text-anchor='middle' dominant-baseline='central'>J</text></svg>" />
+
+<!-- Open Graph / Twitter — 링크 공유 시 미리보기 -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content="김재현 · AI / LLM Engineer 포트폴리오" />
+<meta property="og:description" content="LLM을 서비스로 만드는 AI 엔지니어. 대화형 AI 에이전트·추천 데이터 파이프라인·LLM 플랫폼을 설계·운영합니다." />
+<meta property="og:url" content="https://cozykim.github.io" />
+<meta property="og:locale" content="ko_KR" />
+<meta property="og:site_name" content="김재현 포트폴리오" />
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="김재현 · AI / LLM Engineer 포트폴리오" />
+<meta name="twitter:description" content="LLM을 서비스로 만드는 AI 엔지니어의 포트폴리오." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" /><!-- 인쇄용 이력서 시트(#resume-sheet) 전용 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/4.3.0/marked.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.9.1/mermaid.min.js"></script>
+<style>
+  :root {
+    --accent: #4f46e5;        /* 컬러 포인트 (인디고) */
+    --accent-soft: #eef2ff;
+    --accent-2: #06b6d4;      /* 보조 포인트 (시안) */
+    --bg: #ffffff;
+    --bg-alt: #f7f8fb;
+    --text: #1a1c23;
+    --text-soft: #5b606e;
+    --line: #e6e8ef;
+    --radius: 16px;
+    --maxw: 880px;
+    --font: "Noto Sans KR", "Inter", system-ui, -apple-system, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: var(--font);
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  .wrap { max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
+
+  /* ===== 상단 네비 (화면 전용) ===== */
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255,255,255,0.82);
+    backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav .wrap {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 60px;
+  }
+  .nav .brand { font-weight: 800; letter-spacing: -0.02em; }
+  .nav .brand span { color: var(--accent); }
+  .nav ul { display: flex; gap: 22px; list-style: none; margin: 0; padding: 0; }
+  .nav ul a { color: var(--text-soft); font-size: 14px; font-weight: 500; }
+  .nav ul a:hover { color: var(--accent); text-decoration: none; }
+
+  /* ===== 히어로 ===== */
+  .hero {
+    padding: 72px 0 56px;
+    background:
+      radial-gradient(900px 380px at 85% -10%, var(--accent-soft), transparent 60%),
+      radial-gradient(700px 300px at -10% 10%, #ecfeff, transparent 60%);
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    font-size: 13px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 5px 12px; border-radius: 999px;
+    margin-bottom: 18px;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 6vw, 52px);
+    line-height: 1.15; letter-spacing: -0.03em;
+    margin: 0 0 16px; font-weight: 900;
+    word-break: keep-all;     /* 한글 어절 중간에서 줄이 끊기지 않게 */
+  }
+  .hero h1 .grad {
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p.lead {
+    font-size: 18px; color: var(--text-soft);
+    margin: 0 0 28px;
+    word-break: keep-all;
+  }
+  .hero .cta { display: flex; gap: 12px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 600; font-size: 15px;
+    padding: 11px 20px; border-radius: 12px;
+    border: 1px solid transparent; cursor: pointer;
+  }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #4338ca; text-decoration: none; }
+  .btn-ghost { background: #fff; color: var(--text); border-color: var(--line); }
+  .btn-ghost:hover { border-color: var(--accent); color: var(--accent); text-decoration: none; }
+
+  .contact-row {
+    margin-top: 26px; display: flex; gap: 20px; flex-wrap: wrap;
+    font-size: 14px; color: var(--text-soft);
+  }
+  .contact-row a { color: var(--text-soft); }
+  .contact-row a:hover { color: var(--accent); }
+
+  /* ===== 섹션 공통 ===== */
+  section { padding: 56px 0; }
+  section:nth-of-type(even) { background: var(--bg-alt); }
+  .sec-head { margin-bottom: 32px; }
+  .sec-head .kicker {
+    font-size: 13px; font-weight: 700; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  .sec-head h2 {
+    font-size: 28px; letter-spacing: -0.02em; margin: 6px 0 0; font-weight: 800;
+  }
+
+  /* ===== About ===== */
+  .about p { font-size: 16px; color: var(--text-soft); }
+
+  /* ===== Experience (타임라인) ===== */
+  .timeline { border-left: 2px solid var(--line); margin-left: 6px; }
+  .tl-item { position: relative; padding: 0 0 30px 28px; }
+  .tl-item:last-child { padding-bottom: 0; }
+  .tl-item::before {
+    content: ""; position: absolute; left: -7px; top: 6px;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+  .tl-item .period { font-size: 13px; color: var(--accent); font-weight: 700; }
+  .tl-item h3 { margin: 4px 0 2px; font-size: 18px; font-weight: 700; }
+  .tl-item .org { font-size: 14px; color: var(--text-soft); margin-bottom: 8px; }
+  .tl-item ul { margin: 8px 0 0; padding-left: 18px; color: var(--text-soft); }
+  .tl-item ul li { margin-bottom: 4px; }
+
+  /* ===== Projects ===== */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .card {
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius);
+    padding: 24px; transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .card:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(20,22,40,.08); }
+  .card .ptag {
+    display: inline-block; font-size: 12px; font-weight: 700; color: var(--accent-2);
+    background: #ecfeff; padding: 3px 10px; border-radius: 999px; margin-bottom: 12px;
+  }
+  .card h3 { margin: 0 0 8px; font-size: 19px; font-weight: 700; }
+  .card h3 .status-badge {
+    display: inline-block; vertical-align: 3px; margin-left: 6px; padding: 2px 9px;
+    font-size: 11.5px; font-weight: 600; color: var(--accent);
+    background: rgba(79, 70, 229, .08); border: 1px solid rgba(79, 70, 229, .3); border-radius: 999px;
+  }
+  .card p { margin: 0 0 14px; color: var(--text-soft); font-size: 15px; }
+  .card .stack { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-size: 12px; color: var(--text-soft);
+    background: var(--bg-alt); border: 1px solid var(--line);
+    padding: 3px 9px; border-radius: 8px;
+  }
+  .card .links { margin-top: 14px; font-size: 14px; display: flex; gap: 14px; }
+
+  /* 상세 보기 토글 */
+  .detail-toggle {
+    margin-top: 14px; display: inline-flex; align-items: center; gap: 6px;
+    background: none; border: none; cursor: pointer; padding: 0;
+    color: var(--accent); font-weight: 600; font-size: 14px;
+    font-family: inherit;
+  }
+  .detail-toggle .arrow { transition: transform .2s ease; font-size: 12px; }
+  .detail-toggle[aria-expanded="true"] .arrow { transform: rotate(180deg); }
+
+  .card-detail {
+    display: none;
+    margin-top: 16px; padding-top: 16px;
+    border-top: 1px dashed var(--line);
+  }
+  .card-detail.open { display: block; }
+  /* 상세를 펼친 카드는 2열 그리드에서 전폭으로 — 짝 칸이 비어 생기던 공백 제거 */
+  .grid .card:has(.card-detail.open) { grid-column: 1 / -1; }
+  /* mermaid 렌더 측정용 — 화면 밖에서 임시로 펼침 (사용자에게 안 보임) */
+  .card-detail.mm-measure {
+    display: block !important;
+    position: absolute !important;
+    left: -99999px !important; top: 0;
+    width: 620px; visibility: hidden;
+  }
+  /* 마크다운 본문(### 제목 → 라벨) 스타일 */
+  .card-detail h1, .card-detail h2, .card-detail h3,
+  .card-detail h4, .card-detail h5 {
+    font-size: 12px; font-weight: 700; letter-spacing: 0.04em;
+    color: var(--accent); margin: 12px 0 4px;
+  }
+  .card-detail > :first-child { margin-top: 0; }
+  .card-detail p { margin: 0 0 6px; font-size: 14px; color: var(--text-soft); }
+  .card-detail ul { margin: 0 0 6px; padding-left: 18px; font-size: 14px; color: var(--text-soft); }
+  .card-detail ul li { margin-bottom: 3px; }
+  .card-detail a { font-weight: 600; }
+  .card-detail .links { margin-top: 4px; }
+
+  /* 마크다운 이미지 (스크린샷·아키텍처 그림 등) */
+  .card-detail img, #about-body img {
+    display: block; max-width: 100%; height: auto;
+    margin: 8px 0; border: 1px solid var(--line); border-radius: 10px;
+  }
+  .card-detail figure { margin: 8px 0; }
+  .card-detail figcaption { font-size: 12px; color: var(--text-soft); text-align: center; margin-top: 4px; }
+
+  /* mermaid 다이어그램 */
+  .mermaid {
+    margin: 10px 0; padding: 12px;
+    background: #fdfdff; border: 1px solid var(--line); border-radius: 10px;
+    text-align: center; overflow-x: auto;
+  }
+  .mermaid svg { max-width: 100%; height: auto; }
+  /* 변환 전 원본 코드가 잠깐 보이는 것 방지 */
+  .card-detail pre code.language-mermaid { display: none; }
+
+  /* 프로젝트 카테고리 그룹 */
+  .project-cat { margin-bottom: 36px; }
+  .project-cat:last-child { margin-bottom: 0; }
+  .cat-title {
+    display: flex; align-items: baseline; gap: 10px;
+    margin: 0 0 16px; padding-bottom: 8px;
+    border-bottom: 2px solid var(--accent-soft);
+  }
+  .cat-title h3 { margin: 0; font-size: 19px; font-weight: 800; letter-spacing: -0.01em; }
+  .cat-title .cat-desc { font-size: 13px; color: var(--text-soft); }
+
+  /* ===== Skills ===== */
+  .skill-group { margin-bottom: 22px; }
+  .skill-group h4 { margin: 0 0 10px; font-size: 15px; font-weight: 700; }
+  .skill-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .skill-tags .chip { background: #fff; }
+
+  /* ===== 스크롤 리빌 ===== */
+  .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s ease, transform .55s ease; transition-delay: var(--d, 0ms); }
+  .reveal.in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
+
+  /* 네비 현재 섹션 하이라이트 */
+  .nav ul a.active { color: var(--accent); font-weight: 700; }
+
+  /* 카드 hover 강화 */
+  .card:hover { border-color: rgba(79,70,229,.45); }
+
+  /* ===== 프로젝트 상세 오버레이(우측 서랍, 화면 전용) ===== */
+  .overlay { position: fixed; inset: 0; z-index: 100; }
+  .overlay[hidden] { display: none; }
+  .overlay-backdrop {
+    position: absolute; inset: 0; background: rgba(15, 17, 30, .45);
+    opacity: 0; transition: opacity .25s ease;
+  }
+  .overlay-panel {
+    position: absolute; top: 0; right: 0; height: 100%;
+    width: min(680px, 100vw); background: #fff;
+    box-shadow: -18px 0 50px rgba(15,17,30,.18);
+    transform: translateX(100%); transition: transform .3s cubic-bezier(.22,.8,.3,1);
+    display: flex; flex-direction: column;
+  }
+  .overlay.open .overlay-backdrop { opacity: 1; }
+  .overlay.open .overlay-panel { transform: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .overlay-backdrop, .overlay-panel { transition: none; }
+  }
+  .overlay-head {
+    padding: 22px 28px 16px; border-bottom: 1px solid var(--line);
+  }
+  .overlay-head h3 { margin: 0 0 6px; font-size: 21px; font-weight: 800; letter-spacing: -0.01em; padding-right: 40px; }
+  .overlay-head .status-badge {
+    display: inline-block; vertical-align: 3px; margin-left: 6px; padding: 2px 9px;
+    font-size: 11.5px; font-weight: 600; color: var(--accent);
+    background: rgba(79, 70, 229, .08); border: 1px solid rgba(79, 70, 229, .3); border-radius: 999px;
+  }
+  .overlay-head .ov-sum { margin: 0 0 10px; font-size: 14px; color: var(--text-soft); }
+  .overlay-head .stack { display: flex; flex-wrap: wrap; gap: 6px; }
+  .overlay-body { padding: 18px 28px 32px; overflow-y: auto; flex: 1; }
+  .overlay-body .card-detail { display: block; margin-top: 0; padding-top: 0; border-top: none; }
+  .overlay-close {
+    position: absolute; top: 16px; right: 20px; z-index: 1;
+    width: 34px; height: 34px; border-radius: 10px;
+    background: var(--bg-alt); border: 1px solid var(--line); cursor: pointer;
+    font-size: 15px; color: var(--text-soft); line-height: 1;
+  }
+  .overlay-close:hover { color: var(--accent); border-color: var(--accent); }
+
+  /* ===== mermaid 라이트박스 ===== */
+  .mermaid svg { cursor: zoom-in; }
+  .lightbox { position: fixed; inset: 0; z-index: 120; background: rgba(15,17,30,.72); display: flex; align-items: center; justify-content: center; cursor: zoom-out; padding: 4vh 4vw; }
+  .lightbox[hidden] { display: none; }
+  .lightbox .lb-content { background: #fff; border-radius: 14px; padding: 20px; max-width: 92vw; max-height: 88vh; overflow: auto; }
+  .lightbox .lb-content svg { max-width: none; width: min(1100px, 88vw); height: auto; cursor: default; }
+
+  /* main 을 flex 컬럼으로 → 인쇄 시 order 로 섹션 순서 재배치 가능 */
+  main { display: flex; flex-direction: column; }
+
+  /* ===== 합본 PDF용 이력서 시트 =====
+     화면에선 화면 밖(absolute)에 두어 보이지 않지만 레이아웃은 유지(fit 측정용).
+     인쇄(folio 모드)에서만 1페이지로 노출. resume.html 과 동일한 룩.
+     전역 header/h2/ul/li 와 충돌하지 않도록 전부 #resume-sheet 하위로 스코프. */
+  #resume-sheet {
+    /* 폭을 인쇄 가능 영역(A4 210mm - 좌우 @page 14mm*2 = 182mm)으로 고정 → 측정=인쇄 일치, 가로 잘림 방지.
+       바깥 여백은 공용 @page(16/14mm)가 담당하므로 자체 padding 0. */
+    position: absolute; left: -10000px; top: 0; width: 182mm; padding: 0;
+    background: #fff; color: #343a40;
+    font-family: "IBM Plex Sans KR", var(--font);
+    /* index.html body 의 line-height:1.7 상속 차단 → resume.html(기본 normal)과 동일 줄간격 */
+    line-height: normal;
+  }
+  /* resume.html 의 전역 리셋(*{margin:0;padding:0})을 시트 내부에만 재현 →
+     사이트/브라우저 기본 여백이 끼어 시트가 세로로 부풀던 문제 차단. 아래 개별 규칙이 의도한 간격을 다시 부여. */
+  #resume-sheet * { margin: 0; padding: 0; }   /* box-sizing 은 전역 *{} 가 이미 적용 */
+  #resume-sheet header { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; border-bottom: 1.5px solid #14171a; padding-bottom: 14px; }
+  #resume-sheet .name-line { display: flex; flex-direction: column; gap: 5px; }
+  #resume-sheet .name { font-size: 28px; font-weight: 700; color: #14171a; letter-spacing: -.02em; line-height: 1; }
+  #resume-sheet .role { font-size: 12px; font-weight: 600; color: #747b84; letter-spacing: .01em; }
+  #resume-sheet .contact { display: flex; flex-direction: column; align-items: flex-end; gap: 2.5px; font-family: "IBM Plex Mono", monospace; font-size: 10.2px; color: #747b84; text-align: right; }
+  #resume-sheet .contact a { color: #747b84; text-decoration: none; }
+  #resume-sheet .summary { margin-top: 14px; font-size: 12.4px; line-height: 1.68; color: #343a40; }
+  #resume-sheet .summary p + p { margin-top: 5px; }
+  #resume-sheet section { margin-top: 21px; }
+  #resume-sheet h2 { font-size: 10.5px; font-weight: 700; color: #747b84; letter-spacing: .17em; text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+  #resume-sheet h2::after { content: ""; flex: 1; height: 1px; background: #e4e7eb; }
+  #resume-sheet .exp-head { display: flex; justify-content: space-between; align-items: baseline; margin-top: 13px; }
+  #resume-sheet .exp-head .org { font-size: 14px; font-weight: 700; color: #14171a; letter-spacing: -.01em; }
+  #resume-sheet .exp-head .period { font-family: "IBM Plex Mono", monospace; font-size: 10.6px; color: #747b84; white-space: nowrap; padding-left: 12px; }
+  #resume-sheet .proj { margin-top: 13px; }
+  #resume-sheet .proj-title { font-size: 12.6px; font-weight: 700; color: #14171a; letter-spacing: -.01em; }
+  #resume-sheet .proj-title .tag { font-family: "IBM Plex Mono", monospace; font-size: 8.6px; font-weight: 500; letter-spacing: .05em; color: #747b84; border: 1px solid #d6dade; border-radius: 3px; padding: 1px 5px; vertical-align: 1.5px; margin-left: 5px; }
+  #resume-sheet .proj-sum { font-size: 11px; line-height: 1.5; color: #747b84; margin-top: 2px; }
+  /* 경력기술서 규격: 제목·기간 한 줄 / 성과 / 역할 / 기술 */
+  #resume-sheet .proj-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+  #resume-sheet .proj-period { font-family: "IBM Plex Mono", monospace; font-size: 10.2px; color: #747b84; white-space: nowrap; }
+  /* 설명 줄: 프로젝트가 무엇인지 한 줄. 성과 수치는 불릿이 맡는다 (resume.html 과 동일 규칙) */
+  #resume-sheet .proj-desc { font-size: 11.3px; line-height: 1.56; color: #5f666e; margin-top: 3px; }
+  #resume-sheet .proj-desc strong { font-weight: 700; color: #14171a; }
+  #resume-sheet .proj-tech { font-family: "IBM Plex Mono", monospace; font-size: 10.2px; color: #747b84; margin-top: 4px; }
+  #resume-sheet ul { list-style: none; }   /* margin/padding 은 위 *{} 리셋이 처리 */
+  #resume-sheet li { position: relative; padding-left: 14px; margin: 2.5px 0; font-size: 11.3px; line-height: 1.56; color: #343a40; }
+  #resume-sheet li::before { content: "–"; position: absolute; left: 1px; top: 0; color: #747b84; }
+  #resume-sheet li strong { font-weight: 700; color: #14171a; }
+  #resume-sheet li .mono { font-family: "IBM Plex Mono", monospace; font-size: 10.7px; }
+  #resume-sheet .proj-res { margin-top: 4px; }
+  #resume-sheet .edu-row { display: flex; justify-content: space-between; align-items: baseline; margin-top: 9px; }
+  #resume-sheet .edu-row .what { font-size: 12.3px; color: #343a40; }
+  #resume-sheet .edu-row .what b { font-weight: 700; color: #14171a; }
+  #resume-sheet .edu-row .period { font-family: "IBM Plex Mono", monospace; font-size: 10.6px; color: #747b84; white-space: nowrap; padding-left: 12px; }
+  #resume-sheet .stack { margin-top: 10px; font-size: 11.6px; line-height: 1.95; color: #343a40; }
+  #resume-sheet .stack b { font-size: 9.8px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #14171a; margin-right: 9px; }
+
+  /* ===== Footer ===== */
+  footer {
+    padding: 40px 0; text-align: center; color: var(--text-soft);
+    font-size: 14px; border-top: 1px solid var(--line);
+  }
+
+  /* 화면에서만 보이는 인쇄 버튼 (PDF 2종) */
+  .print-dock {
+    position: fixed; right: 22px; bottom: 22px; z-index: 60;
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+  }
+  .print-fab {
+    border: none; cursor: pointer; font-family: inherit;
+    border-radius: 999px; padding: 12px 18px; font-weight: 600; font-size: 14px;
+    box-shadow: 0 8px 24px rgba(79,70,229,.35);
+  }
+  .print-fab.primary { background: var(--accent); color: #fff; }
+  .print-fab.primary:hover { background: #4338ca; }
+  .print-fab.secondary { background: #fff; color: var(--accent); border: 1px solid var(--accent); }
+  .print-fab.secondary:hover { background: var(--accent-soft); }
+
+  @media (max-width: 680px) {
+    .nav ul { display: none; }
+    .grid { grid-template-columns: 1fr; }
+  }
+
+  /* ============================================================
+     인쇄 / PDF 전용 스타일 — Cmd/Ctrl + P → "PDF로 저장"
+     ============================================================ */
+  @media print {
+    @page { size: A4; margin: 16mm 14mm; }
+
+    :root { --maxw: 100%; }
+    html, body { background: #fff !important; }
+    body { font-size: 10.5pt; line-height: 1.5; color: #111; }
+
+    /* 화면 전용 요소 숨김 */
+    .nav, .print-dock, .print-fab, .hero .cta, .detail-toggle,
+    .overlay, .lightbox { display: none !important; }
+
+    /* 스크롤 리빌 상태와 무관하게 인쇄에는 항상 노출 */
+    .reveal { opacity: 1 !important; transform: none !important; }
+
+    /* 프로젝트 상세는 인쇄 시 항상 펼쳐서 출력 */
+    .card-detail { display: block !important; }
+    .mermaid, .card-detail img { break-inside: avoid; page-break-inside: avoid; }
+    /* 1장 요약본에서는 다이어그램·이미지 생략 */
+    body.onepage .mermaid, body.onepage .card-detail img { display: none !important; }
+
+    /* ===== 인쇄(기본): 1p 이력서 시트 → 2p~ 프로젝트 상세, 연락처 제외.
+       버튼·브라우저 Cmd+P 모두 동일하게 동작. onepage 요약본만 예외(:not(.onepage)). ===== */
+    #resume-sheet { display: none; }                                  /* onepage 요약본에선 숨김 */
+    body:not(.onepage) .hero, body:not(.onepage) #about,
+    body:not(.onepage) #skills, body:not(.onepage) #experience,
+    body:not(.onepage) #contact, body:not(.onepage) footer { display: none !important; }
+    body:not(.onepage) #resume-sheet {                                /* 1페이지로 노출, 폭 고정(인쇄=측정) */
+      display: block; position: static; left: auto; top: auto; width: 182mm;
+    }
+    body:not(.onepage) #resume-sheet .contact a { color: #6b7280 !important; }
+    body:not(.onepage) #projects {                                    /* 프로젝트는 2페이지부터 */
+      break-before: page; page-break-before: always; padding-top: 0;
+    }
+
+    /* 배경/그림자 제거해 잉크 절약 + 깔끔한 문서 느낌 */
+    .hero { background: none !important; padding: 0 0 14px; }
+    section { padding: 14px 0; }
+    section:nth-of-type(even) { background: none !important; }
+    .card { box-shadow: none !important; transform: none !important;
+            border: 1px solid #d9dce5; }
+    .wrap { padding: 0; max-width: 100%; }
+
+    /* 인쇄 시 강제 색 출력 (포인트 컬러 유지) */
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* 헤더 영역 컴팩트하게 */
+    .hero { padding-top: 0; }
+    .hero .eyebrow { margin-bottom: 8px; }
+    .hero h1 { font-size: 24pt; margin-bottom: 8px; }
+    .hero p.lead { font-size: 11pt; margin-bottom: 10px; }
+    .contact-row { margin-top: 8px; gap: 14px; font-size: 9.5pt; }
+
+    .sec-head { margin-bottom: 14px; }
+    .sec-head h2 { font-size: 16pt; }
+
+    /* 빈 공간 최소화:
+       - 인쇄는 1단 레이아웃(좌우 카드 높이차로 생기는 여백 제거)
+       - 카드/카테고리는 페이지를 넘겨 채우되, 작은 단위만 안 잘리게 보호 */
+    body:not(.onepage) .grid { grid-template-columns: 1fr !important; gap: 12px; }
+    .project-cat, .card, .card-detail { break-inside: auto; page-break-inside: auto; }
+    .card { margin-bottom: 10px; }
+    h2, h3, h4 { break-after: avoid; }
+    .cat-title, .sec-head { break-after: avoid; }
+    /* 한 덩어리로 유지할 작은 단위 */
+    .mermaid, .card-detail img, .card-detail ul, .card-detail li,
+    .card-detail p, .tl-item { break-inside: avoid; page-break-inside: avoid; }
+    /* 카드 머리(제목+요약)는 떨어지지 않게 */
+    .card > h3, .card > p { break-after: avoid; }
+
+    a { color: #111 !important; text-decoration: none; }
+    /* 링크 URL을 인쇄물에 노출 (연락처 영역 제외) */
+    .card .links a::after { content: " (" attr(href) ")"; font-size: 8pt; color: #555; }
+
+    footer { border-top: 1px solid #d9dce5; padding: 14px 0; }
+
+    /* ===== 1장 요약 모드 (body.onepage) =====
+       핵심만 남기고 A4 한 페이지에 맞게 압축 출력 */
+    body.onepage { font-size: 9.3pt; }
+    body.onepage #about,
+    body.onepage footer { display: none !important; }
+    body.onepage .card .stack,
+    body.onepage .card .links,
+    body.onepage .card-detail { display: none !important; }
+
+    body.onepage section { padding: 7px 0; }
+    body.onepage .hero { padding: 0 0 6px; }
+    body.onepage .hero .eyebrow { margin-bottom: 4px; }
+    body.onepage .hero h1 { font-size: 18pt; margin-bottom: 5px; }
+    body.onepage .hero p.lead { font-size: 9.5pt; margin-bottom: 5px; }
+    body.onepage .contact-row { margin-top: 5px; font-size: 8.5pt; }
+
+    body.onepage .sec-head { margin-bottom: 7px; }
+    body.onepage .sec-head h2 { font-size: 13pt; }
+    body.onepage .project-cat { margin-bottom: 10px; }
+    body.onepage .cat-title { margin-bottom: 6px; padding-bottom: 3px; }
+    body.onepage .cat-title h3 { font-size: 11.5pt; }
+    body.onepage .grid { gap: 8px; }
+    body.onepage .card { padding: 9px 12px; }
+    body.onepage .card h3 { font-size: 11pt; margin-bottom: 3px; }
+    body.onepage .card p { font-size: 9pt; margin-bottom: 0; }
+    body.onepage .skill-group { margin-bottom: 7px; }
+    body.onepage .skill-group h4 { margin-bottom: 5px; }
+    body.onepage .tl-item { padding-bottom: 14px; }
+    body.onepage .tl-item ul { margin-top: 4px; }
+  }
+</style>
+</head>
+<body>
+
+  <!-- 네비게이션 (화면 전용) -->
+  <nav class="nav">
+    <div class="wrap">
+      <div class="brand">재현<span>.</span>dev</div>
+      <ul>
+        <li><a href="#about">소개</a></li>
+        <li><a href="#projects">프로젝트</a></li>
+        <li><a href="#skills">기술스택</a></li>
+        <li><a href="#contact">연락처</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- 히어로 (content/intro.md 에서 로드) -->
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow" id="hero-eyebrow"></span>
+      <h1 id="hero-title"></h1>
+      <p class="lead" id="hero-lead"></p>
+      <div class="cta">
+        <a class="btn btn-primary" href="#projects">프로젝트 보기</a>
+        <a class="btn btn-ghost" id="hero-mail" href="#">이메일 보내기</a>
+      </div>
+      <div class="contact-row" id="hero-contact"></div>
+    </div>
+  </header>
+
+  <main>
+    <!-- 합본 PDF용 이력서 시트 (인쇄 folio 전용, JS가 채움) -->
+    <section id="resume-sheet" aria-hidden="true"></section>
+
+    <!-- 소개 -->
+    <section id="about" class="about">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">About</div>
+          <h2>소개</h2>
+        </div>
+        <div id="about-body"></div>
+      </div>
+    </section>
+
+    <!-- 프로젝트 (카테고리별 그룹) -->
+    <section id="projects">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Projects</div>
+          <h2>프로젝트</h2>
+        </div>
+
+        <!-- 프로젝트: content/manifest.json + content/projects/*.md 에서 로드 -->
+        <div id="projects-root"></div>
+      </div>
+    </section>
+
+    <!-- 기술스택 -->
+    <section id="skills">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Skills</div>
+          <h2>기술스택</h2>
+        </div>
+        <div class="skill-group">
+          <h4>LLM &amp; Agent</h4>
+          <div class="skill-tags">
+            <span class="chip">LangChain</span><span class="chip">LangGraph</span>
+            <span class="chip">MCP</span><span class="chip">RAG</span>
+            <span class="chip">vLLM</span><span class="chip">LiteLLM</span>
+            <span class="chip">AWS Bedrock</span><span class="chip">Vertex AI</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Language &amp; ML</h4>
+          <div class="skill-tags">
+            <span class="chip">Python</span><span class="chip">FastAPI</span>
+            <span class="chip">PyTorch</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Data &amp; Infra</h4>
+          <div class="skill-tags">
+            <span class="chip">Airflow</span><span class="chip">BigQuery</span>
+            <span class="chip">Snowflake</span><span class="chip">PostgreSQL</span>
+            <span class="chip">Docker</span><span class="chip">Kubernetes</span>
+            <span class="chip">ArgoCD</span><span class="chip">GitHub Actions</span>
+          </div>
+        </div>
+        <div class="skill-group">
+          <h4>Observability</h4>
+          <div class="skill-tags">
+            <span class="chip">MLflow</span><span class="chip">Langfuse</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 경력 · 학력 (타임라인) -->
+    <section id="experience">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Experience</div>
+          <h2>경력 &amp; 학력</h2>
+        </div>
+        <div class="timeline">
+          <div class="tl-item">
+            <div class="period">2022.08 – 현재</div>
+            <h3>AI / LLM 엔지니어</h3>
+            <div class="org">SSG.COM · AI팀</div>
+            <ul>
+              <li>전사 최초 AI Agent(사내 위키 검색 어시스턴트)를 PoC부터 운영까지 단독 설계·구축</li>
+              <li>리뷰 기반 상품 프로파일링 파이프라인으로 장바구니 추천 구좌 CTR 약 3.19배 향상</li>
+              <li>CS 상담 요약·분류 자동화 API 구축</li>
+            </ul>
+          </div>
+          <div class="tl-item">
+            <div class="period">2021.08 – 2021.12</div>
+            <h3>Naver Boostcamp AI Tech 2기</h3>
+            <div class="org">NLP 도메인</div>
+          </div>
+          <div class="tl-item">
+            <div class="period">2015.03 – 2021.08</div>
+            <h3>부산대학교 · 전자공학과 학사</h3>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 연락처 -->
+    <section id="contact">
+      <div class="wrap">
+        <div class="sec-head">
+          <div class="kicker">Contact</div>
+          <h2>연락처</h2>
+        </div>
+        <p class="about" style="color:var(--text-soft)">새로운 기회나 협업 제안은 언제든 환영합니다.</p>
+        <div class="contact-row" style="margin-top:14px">
+          <a href="mailto:robot032195@gmail.com">✉ robot032195@gmail.com</a>
+          <a href="https://github.com/cozykim">↗ GitHub</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    © 2026 김재현 · Built with HTML &amp; CSS · Hosted on GitHub Pages
+  </footer>
+
+  <div class="print-dock">
+    <button class="print-fab secondary" onclick="location.href='resume.html'">📄 이력서 보기</button>
+    <button class="print-fab primary" onclick="printResume()">⤓ 이력서+프로젝트 PDF</button>
+  </div>
+
+  <!-- 프로젝트 상세 오버레이 (화면 전용, JS가 카드의 상세 노드를 옮겨 담음) -->
+  <div class="overlay" id="proj-overlay" hidden>
+    <div class="overlay-backdrop"></div>
+    <aside class="overlay-panel" role="dialog" aria-modal="true" aria-labelledby="ov-title">
+      <button class="overlay-close" aria-label="닫기">✕</button>
+      <div class="overlay-head">
+        <h3 id="ov-title"></h3>
+        <p class="ov-sum" id="ov-sum"></p>
+        <div class="stack" id="ov-stack"></div>
+      </div>
+      <div class="overlay-body" id="ov-body"></div>
+    </aside>
+  </div>
+
+  <!-- mermaid 확대 라이트박스 (화면 전용) -->
+  <div class="lightbox" id="mm-lightbox" hidden>
+    <div class="lb-content"></div>
+  </div>
+
+  <!-- 이력서 렌더 공유 모듈 (resume.html 과 공용) -->
+  <script src="resume-render.js"></script>
+  <script>
+    /* =========================================================
+       콘텐츠 로더 — content/ 의 마크다운을 읽어 화면을 구성한다.
+       편집은 content/intro.md, content/manifest.json,
+       content/projects/*.md 만 고치면 된다.
+       (file:// 직접 열기는 불가 → 로컬은 http 서버 필요, README 참고)
+       ========================================================= */
+
+    var esc = function (s) {
+      return (s || "").replace(/[&<>"]/g, function (c) {
+        return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c];
+      });
+    };
+
+    // 아주 단순한 frontmatter 파서 (--- key: value --- + 본문)
+    function parseFrontmatter(text) {
+      var m = text.match(/^﻿?---\s*\n([\s\S]*?)\n---\s*\n?([\s\S]*)$/);
+      if (!m) return { meta: {}, body: text };
+      var meta = {};
+      m[1].split("\n").forEach(function (line) {
+        var i = line.indexOf(":");
+        if (i === -1) return;
+        var v = line.slice(i + 1).trim();
+        var q = v.match(/^(['"])([\s\S]*)\1$/); // 따옴표로 감싼 값이면 한 겹 벗김 (YAML alias 회피용)
+        meta[line.slice(0, i).trim()] = q ? q[2] : v;
+      });
+      return { meta: meta, body: m[2] };
+    }
+
+    async function fetchText(path) {
+      var res = await fetch(path);
+      if (!res.ok) throw new Error(path + " (" + res.status + ")");
+      return res.text();
+    }
+
+    // "Label | url ; Label2 | url2" → 링크 HTML
+    function renderLinks(spec) {
+      if (!spec) return "";
+      var items = spec.split(";").map(function (p) {
+        var parts = p.split("|");
+        var label = (parts[0] || "").trim();
+        var url = (parts[1] || "#").trim();
+        if (!label) return "";
+        return '<a href="' + esc(url) + '">' + esc(label) + "</a>";
+      }).filter(Boolean);
+      if (!items.length) return "";
+      return '<div class="d-row"><div class="links">' + items.join(" ") + "</div></div>";
+    }
+
+    function renderHero(meta, bodyHtml) {
+      document.getElementById("hero-eyebrow").textContent = meta.role || "";
+      // headline 의 **강조** → 그라데이션 텍스트
+      var title = esc(meta.headline || meta.name || "");
+      title = title.replace(/\*\*(.+?)\*\*/g, '<span class="grad">$1</span>');
+      document.getElementById("hero-title").innerHTML = title;
+      document.getElementById("hero-lead").textContent = meta.lead || "";
+      if (meta.email) document.getElementById("hero-mail").href = "mailto:" + meta.email;
+
+      var c = [];
+      if (meta.email) c.push('<a href="mailto:' + esc(meta.email) + '">✉ ' + esc(meta.email) + "</a>");
+      if (meta.github) c.push('<a href="' + esc(meta.github) + '">↗ ' + esc(meta.github.replace(/^https?:\/\//, "")) + "</a>");
+      if (meta.site) c.push('<a href="' + esc(meta.site) + '">↗ ' + esc(meta.site.replace(/^https?:\/\//, "")) + "</a>");
+      if (meta.location) c.push("<span>📍 " + esc(meta.location) + "</span>");
+      document.getElementById("hero-contact").innerHTML = c.join("");
+
+      document.getElementById("about-body").innerHTML = bodyHtml || "";
+      document.title = (meta.name || "포트폴리오") + " · 포트폴리오";
+    }
+
+    function stackChips(stack) {
+      return (stack || "").split(",").map(function (s) {
+        s = s.trim();
+        return s ? '<span class="chip">' + esc(s) + "</span>" : "";
+      }).join("");
+    }
+
+    function projectCardHTML(meta, bodyHtml, slug) {
+      var chips = stackChips(meta.stack);
+      var detail = (bodyHtml || "") + renderLinks(meta.links);
+      return (
+        '<article class="card" data-slug="' + esc(slug || "") + '">' +
+          "<h3>" + esc(meta.title || "제목 없음") +
+            (meta.status ? ' <span class="status-badge">' + esc(meta.status) + "</span>" : "") + "</h3>" +
+          "<p>" + esc(meta.summary || "") + "</p>" +
+          (chips ? '<div class="stack">' + chips + "</div>" : "") +
+          '<button class="detail-toggle" aria-expanded="false">상세 보기 <span class="arrow">▾</span></button>' +
+          '<div class="card-detail">' + detail + "</div>" +
+        "</article>"
+      );
+    }
+
+    /* =========================================================
+       합본 PDF용 이력서 시트(1페이지) 렌더.
+       콘텐츠 규칙(불릿·학력·스택·인라인 MD)은 resume-render.js(window.ResumeRender)를
+       resume.html 과 공유 → 두 이력서가 같은 데이터에서 동일한 내용을 내도록 보장.
+       HTML 조립과 CSS 만 이 페이지(#resume-sheet)에 맞게 둔다.
+       ========================================================= */
+
+    // 이력서 시트를 인쇄 가능 영역 높이에 맞춰 축소(zoom). A4 297mm - 상하 16mm 여백 ≈ 265mm @96dpi.
+    function fitResumeSheet() {
+      var el = document.getElementById("resume-sheet");
+      if (!el) return;
+      el.style.zoom = "1";
+      // 인쇄 가능 높이: A4 297mm - 상하 @page 16mm*2 = 265mm ≈ 1001px @96dpi. 여유 두고 985.
+      var TARGET = 985;
+      var h = el.scrollHeight;
+      if (h > TARGET) el.style.zoom = (TARGET / h).toFixed(4);
+    }
+
+    function buildResumeSheet(meta, loaded, categories, byCat) {
+      var el = document.getElementById("resume-sheet");
+      if (!el) return;
+      var R = window.ResumeRender;
+      meta = meta || {};
+
+      var c = [];
+      if (meta.email) c.push('<a href="mailto:' + esc(meta.email) + '">' + esc(meta.email) + "</a>");
+      if (meta.github) c.push('<a href="' + esc(meta.github) + '">' + esc(meta.github.replace(/^https?:\/\//, "")) + "</a>");
+      if (meta.site) c.push('<a href="' + esc(meta.site) + '">' + esc(meta.site.replace(/^https?:\/\//, "")) + "</a>");
+      if (meta.location) c.push("<span>" + esc(meta.location) + "</span>");
+
+      var org = (meta.company ? meta.company : "") + (meta.position ? " — " + meta.position : "");
+
+      // Experience: 경력기술서 규격 — 프로젝트 단위 칸을 기간 최신순 역순으로.
+      // 한 칸 = 제목·기간 / 설명 1줄(무엇인가) / 한 일 2줄(성과 수치 포함) / 핵심 기술 1~3개
+      var exp = "";
+      R.byRecency((loaded || []).filter(R.inResume)).forEach(function (p) {
+        exp += '<div class="proj"><div class="proj-head">' +
+          '<span class="proj-title">' + esc(p.meta.title || "") +
+          (p.meta.status ? ' <span class="tag">' + esc(p.meta.status) + "</span>" : "") + "</span>" +
+          '<span class="proj-period">' + esc(R.projectPeriod(p)) + "</span></div>";
+        var desc = R.projectDesc(p);
+        if (desc) exp += '<div class="proj-desc">' + R.inlineMd(desc) + "</div>";
+        var bullets = R.projectBullets(p);
+        if (bullets.length) {
+          exp += '<ul class="proj-res">' + bullets.map(function (x) { return "<li>" + R.inlineMd(x) + "</li>"; }).join("") + "</ul>";
+        }
+        var tech = R.projectTech(p);
+        if (tech.length) exp += '<div class="proj-tech">' + esc(tech.join(" · ")) + "</div>";
+        exp += "</div>";
+      });
+
+      // Education: 파싱은 공유 모듈, 첫 토막 굵게 표시는 이 페이지에서
+      var eduHtml = R.educationItems(meta).map(function (e) {
+        var w = e.what.replace(/^(.+?)( — .*)?$/, function (_, a, b) { return "<b>" + esc(a) + "</b>" + esc(b || ""); });
+        return '<div class="edu-row"><span class="what">' + w + '</span><span class="period">' + esc(e.period) + "</span></div>";
+      }).join("");
+
+      // Tech Stack: 큐레이션(resumeStack) 우선, 없으면 프로젝트 stack + stackExtra 자동 집계
+      var groups = R.resumeStackGroups(meta);
+      var stackHtml = groups.length
+        ? groups.map(function (g) { return (g.name ? "<b>" + esc(g.name) + "</b>" : "") + esc(g.items); }).join("<br>")
+        : esc(R.aggregateStack(loaded, meta).join(", "));
+
+      el.innerHTML =
+        '<header><div class="name-line">' +
+          '<span class="name">' + esc(meta.name || "이력서") + "</span>" +
+          (meta.role ? '<span class="role">' + esc(meta.role) + "</span>" : "") +
+        "</div>" +
+        '<div class="contact">' + c.join("") + "</div></header>" +
+        (meta.lead ? '<div class="summary"><p>' + R.inlineMd(meta.lead) + "</p></div>" : "") +
+        "<section><h2>Experience</h2>" +
+          (org || meta.period
+            ? '<div class="exp-head"><span class="org">' + esc(org) + '</span><span class="period">' + esc(meta.period || "") + "</span></div>"
+            : "") +
+          '<div class="exp">' + exp + "</div></section>" +
+        (eduHtml ? "<section><h2>Education</h2>" + eduHtml + "</section>" : "") +
+        (stackHtml ? '<section><h2>Tech Stack</h2><p class="stack">' + stackHtml + "</p></section>" : "");
+
+      // 웹폰트 로드 후 글자 폭이 확정되면 한 번만 맞춤(미지원 환경은 즉시).
+      // 폰트 전 사전 측정은 곧 폐기되는 reflow 라 생략한다.
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitResumeSheet);
+      else fitResumeSheet();
+    }
+
+    async function loadContent() {
+      // 소개
+      try {
+        var intro = parseFrontmatter(await fetchText("content/intro.md"));
+        renderHero(intro.meta, marked.parse(intro.body || ""));
+      } catch (e) {
+        console.error(e);
+      }
+
+      // 프로젝트
+      var root = document.getElementById("projects-root");
+      try {
+        var manifest = JSON.parse(await fetchText("content/manifest.json"));
+        var loaded = await Promise.all(
+          manifest.projects.map(async function (file) {
+            var pf = parseFrontmatter(await fetchText("content/" + file));
+            var slug = file.replace(/^projects\//, "").replace(/\.md$/, "");
+            return { meta: pf.meta, body: pf.body, html: marked.parse(pf.body || ""), slug: slug };
+          })
+        );
+        loaded.forEach(function (p) { PROJECTS[p.slug] = p; });
+
+        // 카테고리별 프로젝트 그룹핑(한 번만) — 카드와 이력서 시트가 함께 사용
+        var byCat = {};
+        loaded.forEach(function (p) {
+          var k = p.meta.category || "";
+          (byCat[k] = byCat[k] || []).push(p);
+        });
+
+        var html = "";
+        manifest.categories.forEach(function (cat) {
+          var items = byCat[cat.name] || [];
+          if (!items.length) return;
+          html +=
+            '<div class="project-cat">' +
+              '<div class="cat-title"><h3>' + esc(cat.name) + "</h3>" +
+              (cat.desc ? '<span class="cat-desc">' + esc(cat.desc) + "</span>" : "") +
+              "</div>" +
+              '<div class="grid">' +
+                items.map(function (p) { return projectCardHTML(p.meta, p.html, p.slug); }).join("") +
+              "</div>" +
+            "</div>";
+        });
+        root.innerHTML = html;
+
+        // 합본 PDF용 이력서 시트(1페이지) — resume.html 과 동일 규칙으로 같은 데이터에서 생성
+        try { buildResumeSheet(intro && intro.meta, loaded, manifest.categories, byCat); }
+        catch (e2) { console.error("resume sheet build error", e2); }
+      } catch (e) {
+        console.error(e);
+        root.innerHTML =
+          '<p style="color:#b91c1c">콘텐츠를 불러오지 못했습니다. ' +
+          "로컬에서 볼 때는 파일을 더블클릭하지 말고 폴더에서 " +
+          "<code>python -m http.server</code> 실행 후 " +
+          '<code>http://localhost:8000</code> 으로 접속하세요. ' +
+          "(GitHub Pages에 올리면 자동으로 동작합니다.)</p>";
+      }
+
+      await renderDiagrams();
+    }
+
+    // ```mermaid 코드블록 → 다이어그램 변환 후 렌더링
+    async function renderDiagrams() {
+      // marked 가 만든 <pre><code class="language-mermaid"> 를 <div class="mermaid"> 로 변환
+      document.querySelectorAll("code.language-mermaid").forEach(function (code) {
+        var div = document.createElement("div");
+        div.className = "mermaid";
+        div.textContent = code.textContent; // 엔티티 자동 디코딩
+        var pre = code.closest("pre") || code;
+        pre.replaceWith(div);
+      });
+      if (!window.mermaid) return;
+      try {
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: "base",
+          themeVariables: {
+            primaryColor: "#eef2ff",
+            primaryBorderColor: "#4f46e5",
+            primaryTextColor: "#1a1c23",
+            lineColor: "#94a3b8",
+            fontFamily: "Noto Sans KR, sans-serif"
+          },
+          securityLevel: "loose"
+        });
+        // 상세 패널이 접혀 있으면(display:none) mermaid 가 크기를 못 재 빈 SVG 가 됨.
+        // 렌더 동안만 화면 밖에서 임시로 펼쳐 측정 가능하게 한 뒤 원복.
+        var hidden = Array.prototype.slice.call(
+          document.querySelectorAll(".card-detail:not(.open)")
+        );
+        hidden.forEach(function (d) { d.classList.add("mm-measure"); });
+        try {
+          await mermaid.run({ querySelector: ".mermaid" });
+        } finally {
+          hidden.forEach(function (d) { d.classList.remove("mm-measure"); });
+        }
+      } catch (e) {
+        console.error("mermaid render error", e);
+      }
+    }
+
+    var PROJECTS = {};   // slug → {meta, html, ...} (오버레이·딥링크용)
+
+    // 딥링크: #p/<slug> 면 해당 프로젝트 상세를 연다 (최초 로드 + 해시 변경 공용)
+    function openFromHash() {
+      if (location.hash.indexOf("#p/") !== 0) { closeOverlay(); return; }
+      var slug = decodeURIComponent(location.hash.slice(3));
+      var card = document.querySelector('.card[data-slug="' + slug.replace(/"/g, "") + '"]');
+      if (card) openOverlay(card);
+    }
+
+    loadContent().then(function () {
+      initScrollFx();
+      if (location.hash.indexOf("#p/") === 0) openFromHash();
+    });
+    window.addEventListener("hashchange", openFromHash);
+
+    /* =========================================================
+       프로젝트 상세 오버레이(우측 서랍) — 화면 전용.
+       인쇄는 기존처럼 카드 안의 .card-detail 을 인라인으로 펼쳐 쓰므로,
+       상세 노드를 복제하지 않고 "이동"했다가 닫을 때 되돌린다.
+       (mermaid SVG 내부 id 참조가 복제되면 마커가 깨질 수 있음)
+       ========================================================= */
+    var ovState = { detail: null, homeCard: null };
+
+    function openOverlay(card) {
+      var p = PROJECTS[card.dataset.slug];
+      var detail = card.querySelector(".card-detail");
+      if (!p || !detail) return;
+      closeOverlay(true);
+      var ov = document.getElementById("proj-overlay");
+      document.getElementById("ov-title").innerHTML = esc(p.meta.title || "") +
+        (p.meta.status ? ' <span class="status-badge">' + esc(p.meta.status) + "</span>" : "");
+      document.getElementById("ov-sum").textContent = p.meta.summary || "";
+      document.getElementById("ov-stack").innerHTML = stackChips(p.meta.stack);
+      ovState.detail = detail; ovState.homeCard = card;
+      document.getElementById("ov-body").appendChild(detail);
+      document.getElementById("ov-body").scrollTop = 0;
+      ov.hidden = false;
+      requestAnimationFrame(function () { ov.classList.add("open"); });
+      document.documentElement.style.overflow = "hidden";
+      ov.querySelector(".overlay-close").focus();
+      history.replaceState(null, "", "#p/" + encodeURIComponent(card.dataset.slug));
+    }
+
+    function closeOverlay(immediate) {
+      var ov = document.getElementById("proj-overlay");
+      if (ov.hidden) return;
+      ov.classList.remove("open");
+      document.documentElement.style.overflow = "";
+      if (location.hash.indexOf("#p/") === 0) history.replaceState(null, "", location.pathname + location.search);
+      var restore = function () {
+        ov.hidden = true;
+        if (ovState.detail && ovState.homeCard) ovState.homeCard.appendChild(ovState.detail);
+        ovState.detail = ovState.homeCard = null;
+      };
+      if (immediate) restore(); else setTimeout(restore, 300);
+    }
+
+    /* mermaid 라이트박스: 다이어그램 클릭 → 확대 */
+    function openLightbox(mmDiv) {
+      var svg = mmDiv.querySelector("svg");
+      if (!svg) return;
+      var lb = document.getElementById("mm-lightbox");
+      lb.querySelector(".lb-content").innerHTML = "";
+      lb.querySelector(".lb-content").appendChild(svg.cloneNode(true));
+      lb.hidden = false;
+    }
+    function closeLightbox() {
+      var lb = document.getElementById("mm-lightbox");
+      lb.hidden = true;
+      lb.querySelector(".lb-content").innerHTML = "";
+    }
+
+    // 클릭 위임 (카드·오버레이는 동적 생성이라 문서 레벨에서 처리)
+    document.addEventListener("click", function (e) {
+      if (e.target.closest("#mm-lightbox")) { closeLightbox(); return; }
+      var mm = e.target.closest(".mermaid");
+      if (mm && mm.querySelector("svg")) { openLightbox(mm); return; }
+      var btn = e.target.closest(".detail-toggle");
+      if (btn) { var card = btn.closest(".card"); if (card) openOverlay(card); return; }
+      if (e.target.closest(".overlay-close") || e.target.classList.contains("overlay-backdrop")) closeOverlay();
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key !== "Escape") return;
+      if (!document.getElementById("mm-lightbox").hidden) { closeLightbox(); return; }
+      closeOverlay();
+    });
+
+    /* =========================================================
+       스크롤 인터랙션 — 리빌, 네비 스크롤 스파이.
+       prefers-reduced-motion 이면 애니메이션 없이 항상 노출.
+       ========================================================= */
+    function initScrollFx() {
+      var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+      var targets = Array.prototype.slice.call(
+        document.querySelectorAll(".sec-head, #about-body, .skill-group, .tl-item")
+      );
+      document.querySelectorAll(".grid").forEach(function (grid) {
+        Array.prototype.forEach.call(grid.children, function (el, i) {
+          el.style.setProperty("--d", (i % 4) * 70 + "ms");
+          targets.push(el);
+        });
+      });
+
+      if (!reduce) {
+        targets.forEach(function (el) { el.classList.add("reveal"); });
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (en) {
+            if (!en.isIntersecting) return;
+            en.target.classList.add("in");
+            io.unobserve(en.target);
+          });
+        }, { threshold: 0.15, rootMargin: "0px 0px -5% 0px" });
+        targets.forEach(function (el) { io.observe(el); });
+      }
+
+      // 네비 스크롤 스파이
+      var navLinks = document.querySelectorAll(".nav ul a[href^='#']");
+      var byId = {};
+      navLinks.forEach(function (a) { byId[a.getAttribute("href").slice(1)] = a; });
+      var spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting || !byId[en.target.id]) return;
+          navLinks.forEach(function (x) { x.classList.remove("active"); });
+          byId[en.target.id].classList.add("active");
+        });
+      }, { rootMargin: "-40% 0px -55% 0px" });
+      Object.keys(byId).forEach(function (id) {
+        var sec = document.getElementById(id);
+        if (sec) spy.observe(sec);
+      });
+    }
+
+    // PDF 출력: 기본(이력서 1p + 프로젝트 상세, 연락처 제외) / 'onepage'(A4 1장 요약).
+    // 기본 인쇄는 :not(.onepage) CSS 로 동작하므로 버튼이든 브라우저 Cmd+P 든 결과가 같다.
+    function printResume(mode) {
+      document.body.classList.toggle("onepage", mode === "onepage");
+      window.print();
+    }
+    window.printResume = printResume;
+
+    // 창 크기 변동 시 이력서 시트 다시 한 페이지에 맞춤
+    window.addEventListener("resize", fitResumeSheet);
+
+    // 인쇄 시작 직전: 요약본(onepage)이 아니면 모든 상세를 펼쳐 누락 없이 출력
+    window.addEventListener("beforeprint", function () {
+      // 오버레이가 열려 있으면 상세 노드를 카드로 되돌려 인쇄 누락 방지
+      closeOverlay(true);
+      // 이력서 시트 배율은 로드/폰트로드/resize 시 화면에서 이미 확정됨(폭 고정이라 인쇄와 동일).
+      // 인쇄 미디어에서 재측정하면 숨김 상태로 잡혀 배율이 풀리므로 여기선 다시 맞추지 않는다.
+      if (document.body.classList.contains("onepage")) return;
+      document.querySelectorAll(".card-detail").forEach(function (d) {
+        d.dataset.wasOpen = d.classList.contains("open") ? "1" : "0";
+        d.classList.add("open");
+      });
+    });
+    // 인쇄 종료 후: 화면 상태 복원
+    window.addEventListener("afterprint", function () {
+      document.querySelectorAll(".card-detail").forEach(function (d) {
+        if (d.dataset.wasOpen === "0") d.classList.remove("open");
+      });
+      document.body.classList.remove("onepage");
+    });
+  </script>
+
+</body>
+</html>
